@@ -9,7 +9,7 @@
 
     <StackPanel Background="HotPink">
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Name="resultTextBlock" FontSize="36" Foreground="White" TextWrapping="WrapWholeWords"/>
+            <TextBlock Name="resultTextBlock" FontSize="36" Foreground="White" TextWrapping="WrapWholeWords" Text="loading..."/>
         </StackPanel>
     </StackPanel>
 </Page>

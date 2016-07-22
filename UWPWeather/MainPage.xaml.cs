@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Notifications;
@@ -41,25 +43,37 @@ namespace UWPWeather
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
+
+            while (true)
+            {
+                await Task.Delay(3000);
+                DownloadTirckerData();
+            }            
+        }
+
+        async void DownloadTirckerData()
+        {
+            
             try
             {
                 string pair = "eth_usd";
                 var position = await LocationManager.GetPosition();
                 RootObject ticker = await OpenWeatherProxy.GetData(pair);
-                resultTextBlock.Text = "Last price: " + ticker.ticker.last.ToString() + " and position is " + position.Coordinate.Latitude;
-
+                resultTextBlock.Text = "Last price: " + ticker.ticker.server_time.ToString() + " and position is " + position.Coordinate.Latitude;
+                
                 //Schedule update
-                var uri = "https://btc-e.com/api/2/" + pair + "/ticker";
-                var tileContent = new Uri(uri);
-                var requestedInterval = PeriodicUpdateRecurrence.HalfHour;
-                var updater = TileUpdateManager.CreateTileUpdaterForApplication();
-                updater.StartPeriodicUpdate(tileContent, requestedInterval);
+                //var uri = "https://btc-e.com/api/2/" + pair + "/ticker";
+                //var tileContent = new Uri(uri);
+                //var requestedInterval = PeriodicUpdateRecurrence.HalfHour;
+                //var updater = TileUpdateManager.CreateTileUpdaterForApplication();
+                //updater.StartPeriodicUpdate(tileContent, requestedInterval);
             }
             catch (Exception)
             {
                 resultTextBlock.Text = "something went wrong";
             }
 
+            
         }
     }
 }
